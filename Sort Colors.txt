@@ -1,0 +1,37 @@
+  void  merage(vector<int>& nums,int start,int mid,int end)
+    {
+        vector<int> tem;
+        int i=start;
+        int j=mid+1;
+        while(i<= mid && j<=end)
+        {
+            if(nums[i]<nums[j])
+                tem.push_back(nums[i++]); 
+            else 
+               tem.push_back(nums[j++]);
+            
+        }
+        while(i<=mid)  tem.push_back(nums[i++]);
+        while(j<=end)  tem.push_back(nums[j++]);
+        int k=0;
+        for(int i=start;i<=end;i++)
+        {
+            nums[i]=tem[k++];
+        }
+        return;
+    }
+    void  meragesort(vector<int>&  nums,int start,int end){
+        if(start>=end) return ;
+        int mid=(start+end)/2;
+        meragesort(nums,start,mid);
+        meragesort(nums,mid+1,end);
+        merage(nums,start,mid,end);
+        return;
+    }
+    void sortColors(vector<int>& nums) {
+         int n=nums.size();
+        meragesort(nums,0,n-1);
+        return;
+        
+    }
+};
