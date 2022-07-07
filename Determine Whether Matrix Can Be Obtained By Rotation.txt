@@ -1,0 +1,41 @@
+ bool helper(vector<vector<int>>& mat, vector<vector<int>>& target,int ds)
+     {
+         if(ds>4) return false;
+         int n=mat.size(),cols=mat[0].size();
+         int a=0;
+         int b=n-1;
+        while(a<b)
+        {
+            for(int i=0;i<b-a;i++)
+            {
+                swap(mat[a][a+i],mat[a+i][b]);
+                swap(mat[a][a+i],mat[b][b-i]);
+                swap(mat[a][a+i],mat[b-i][a]);
+            }
+            a++;
+            --b;
+        }
+        bool ans=true;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<cols;j++)
+            {
+                if(mat[i][j]!=target[i][j])
+                {
+                    ans=false; break;
+                }
+            }
+        }
+       if(ans==false)
+       {
+           return helper( mat, target,ds+1);
+       }
+        else
+            return true;
+         
+     }
+    bool findRotation(vector<vector<int>>& mat, vector<vector<int>>& target) {
+        
+       return helper(mat,target,1);
+        
+    }

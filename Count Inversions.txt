@@ -1,0 +1,42 @@
+long w=0;
+void merge(long long *arr,int start,int mid,int end)
+{
+    long long tem[end+1];
+    int i=start;
+    int j=mid;
+    int k=0;
+    while(i<=mid-1 && j<=end)
+    {
+        if(arr[i]<=arr[j])
+            tem[k++]=arr[i++];
+        else{
+            tem[k++]=arr[j++];
+         w+=mid-i;
+        }    
+    }
+    while(i<=mid-1)
+         tem[k++]=arr[i++];
+    while(j<=end)
+         tem[k++]=arr[j++];
+    int h=start,r=0;
+    while(h<k)
+    {
+        arr[h]=tem[r];
+        h++;
+        r++;
+    }
+}
+void mergesort(long long *arr,int start,int end)
+{
+    if(start>=end)return;
+    int mid;
+    mid=(start+end)/2;
+    mergesort(arr,start,mid);
+    mergesort(arr,mid+1,end);
+    merge(arr,start,mid+1,end);
+}
+long long getInversions(long long *arr, int n){
+    // Write your code here.
+   mergesort(arr,0,n-1);
+    return w;
+}

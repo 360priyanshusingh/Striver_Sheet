@@ -1,0 +1,18 @@
+ void rotate(vector<vector<int>>& matrix) {
+        int row=matrix.size();
+        int col=matrix[0].size();
+        int a=0;
+        int b=col-1;
+       
+        while(a<b)
+        {
+            for(int j=0;j<b-a;j++)
+            {
+                swap(matrix[a][a+j],matrix[a+j][b]);
+                swap(matrix[a][a+j],matrix[b][b-j]);
+                swap(matrix[a][a+j],matrix[b-j][a]);
+            }
+            a++;
+            b--;
+        }
+    }

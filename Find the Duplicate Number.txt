@@ -1,0 +1,11 @@
+ int findDuplicate(vector<int>& nums) {
+        unordered_map<int,int> ourmap;
+        for(int i=0;i<nums.size();i++)
+        {
+            if(ourmap[nums[i]]>=1)
+              return nums[i] ;
+            else
+                (ourmap[nums[i]]=1);
+        }
+        return 0;
+    }
