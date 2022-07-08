@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int mypow(int a,int x)
+    {
+        if(x==0) return 1;
+        
+        long long y=mypow( a,x/2);
+        if(x%2==0)
+            return (y*y)%1337;
+        else
+            return (a*y*y)%1337;
+        
+    }
+    int superPow(int a, vector<int>& b) {
+        
+      if(b.size()==0) return 1;
+        int y=b.back();
+        b.pop_back();
+        return mypow(superPow( a, b),10)*(mypow(a,y)%1337);
+    }
+};
