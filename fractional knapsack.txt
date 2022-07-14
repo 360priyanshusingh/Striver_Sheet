@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+bool comparater(pair<int,int> p1,pair<int,int> p2)
+{
+    double r1= (double)p1.second/(double)p1.first;
+    double r2=(double)p2.second/(double)p2.first;
+    return r1>r2;
+}
+double maximumValue (vector<pair<int, int>>& items, int n, int w)
+{
+    // Write your code here.
+    // ITEMS contains {weight, value} pairs.
+    pair<int,int> vpw[n];
+    for(int i=0;i<n;i++)
+    {
+        vpw[i].first=items[i].first;
+        vpw[i].second=items[i].second;
+    }
+    sort(vpw,vpw+n,comparater);
+    int curw=0;
+    double finalv=0.0;
+    for(int i=0;i<n;i++)
+    {
+        if(w>=curw+vpw[i].first)
+        {
+            curw+=vpw[i].first;
+            finalv+=vpw[i].second;
+        }
+        else
+        {
+            double remain=w-curw;
+            finalv+= (vpw[i].second/(double)vpw[i].first)*(double)remain;
+            break;
+        }
+    }
+    return finalv;
+}

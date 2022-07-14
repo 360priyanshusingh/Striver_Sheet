@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+class Meeting{
+    public:
+    int start;
+    int end;
+    int pos;
+};
+bool comparater(Meeting m1,Meeting m2)
+{
+    if(m1.end<m2.end) return true;
+    else if(m1.end>m2.end) return false;
+    else if(m1.pos<m2.pos) return true;
+     return false;
+}
+vector<int> maximumMeetings(vector<int> &start, vector<int> &end) {
+   int n=end.size();
+    Meeting meet[end.size()];
+    for(int i=0;i<end.size();i++)
+    {
+        meet[i].start=start[i];meet[i].end=end[i];
+        meet[i].pos=i+1;
+    }
+    sort(meet,meet+n,comparater);
+    vector<int> ans;
+    int limit=meet[0].end;
+    ans.push_back(meet[0].pos);
+    for(int i=1;i<end.size();i++)
+    {
+        if(limit<meet[i].start)
+        {
+            limit=meet[i].end;
+            ans.push_back(meet[i].pos);  
+        }
+    }
+   return ans; 
+}

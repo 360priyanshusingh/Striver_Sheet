@@ -1,0 +1,38 @@
+#include<bits/stdc++.h>
+bool comparater(pair<int,int> p1,pair<int,int> p2)
+{
+    if(p1.second>p2.second) return true;
+    else return false;
+}
+int jobScheduling(vector<vector<int>> &jobs)
+{
+    // Write your code here
+    int maxdedline=INT_MIN,n=jobs.size();
+    pair<int,int> v[n];
+    for(int i=0;i<n;i++)
+    {
+     maxdedline=max(maxdedline,jobs[i][0]);
+      v[i].first=jobs[i][0];
+      v[i].second=jobs[i][1];   
+    }
+    sort(v,v+n,comparater);
+    int arr[maxdedline+1];
+    for(int i=0;i<maxdedline+1;i++)
+         arr[i]=-1;
+     int maxpro=0,i=0;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=v[i].first;j>=1;j--)
+        {
+            if(arr[j]==-1)
+            { arr[j]=0;
+               maxpro+= v[i].second;
+             break;
+            }
+        }
+    }
+    
+    
+    return maxpro;
+    
+}
