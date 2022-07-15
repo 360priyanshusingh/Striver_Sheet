@@ -1,0 +1,31 @@
+class Solution {
+public:
+    void helper(vector<int>& nums,int index , set<vector<int> > &res, vector<int> sa){
+         
+         if(nums.size()==index)
+         {
+             sort(sa.begin(),sa.end());
+             res.insert(sa);
+             return;
+         }
+        sa.push_back(nums[index]);
+        helper(nums, index+1 , res,sa);
+        sa.pop_back();
+        helper(nums, index+1 , res,sa);
+        return;
+     } 
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        
+        vector<vector<int>> ans;
+        vector<int> sa;
+        set<vector<int> > res;
+        helper( nums,0,res,sa);
+        
+        for(auto it=res.begin();it!=res.end();it++)
+        {
+            ans.push_back(*it);
+        }
+        
+        return ans; 
+    }
+};
