@@ -1,0 +1,33 @@
+class Solution {
+public:
+   
+    void helperpermute(vector<int> &nums,int index,set<vector<int>>&res) {
+        if(nums.size()==index)
+        {
+           res.insert(nums);
+            return;
+        }
+       
+        for(int i=index;i<nums.size();i++)
+        {
+           
+            swap(nums[index],nums[i]);
+            helperpermute( nums,index+1,res);
+            swap(nums[index],nums[i]);
+        }
+        
+        return;
+    }
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+         vector<vector<int>> ans;
+        set<vector<int>> res;
+
+         helperpermute(nums,0 ,res);
+             for(auto it=res.begin();it!=res.end();it++)
+             {
+               ans.push_back(*it);
+             }
+        return ans;
+    }
+};
