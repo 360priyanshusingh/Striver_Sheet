@@ -1,0 +1,68 @@
+class Solution {
+public:
+    
+    bool isvalid(int row,int col,int z,vector<vector<char>>& board,int n)
+    {
+        int rowfact=row-(row%3);
+        int colfact=col-(col%3);
+        char r=char(z+'0');
+        int i=0,j=0;
+        while(i!=n){
+            if(board[i][col]==r)
+                return false;
+            i++;
+        }
+        while(j!=n)
+        {
+             if(board[row][j]==r)
+                return false;
+            j++;
+        }
+        
+        for(int i=0;i<3;i++)
+        {
+            for(j=0;j<3;j++)
+            {
+               if( board[rowfact+i][colfact+j]==r)
+                   return false;
+            }
+        }
+        
+        return true;
+        
+    }
+   bool helper(vector<vector<char>>& board)
+   {
+       int n=board.size();
+       for(int i=0;i<n;i++)
+       {
+           for(int j=0;j<n;j++)
+           {
+               if( board[i][j]=='.')
+               {
+                   for(int z=1;z<=9;z++)
+                   {
+                       if(isvalid(i,j,z,board,n)==true)
+                       {
+                            board[i][j]=char(z+'0');
+                           if( helper( board)==true)
+                               return true;
+                           else
+                              board[i][j]='.';
+                           
+                        }
+                     }
+                   
+                return false;
+                }
+              
+             }
+        }
+    return true;
+   }
+    void solveSudoku(vector<vector<char>>& board) {
+        
+      bool ans = helper(board);
+        return;
+    }
+};

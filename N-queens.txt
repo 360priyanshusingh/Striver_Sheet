@@ -1,0 +1,48 @@
+class Solution {
+public:
+    
+    void helper(int n, vector<vector<string>> &ans,  vector<int> rowchek, vector<int>  lowrdigonal
+                , vector<int> upperdigonal,int col, vector<string> &v)
+    {
+        if(col==n){
+            ans.push_back(v);
+            return;
+        }
+        
+        for(int row=0;row<n;row++)
+        {
+            if(rowchek[row]==0 && lowrdigonal[row+col]==0 && upperdigonal[n-1+col-row]==0)
+            {
+                v[row][col]='Q';
+                rowchek[row]=1;
+                lowrdigonal[row+col]=1;
+                upperdigonal[n-1+col-row]=1;
+                helper(n,ans, rowchek,lowrdigonal,upperdigonal,col+1,v);
+                 v[row][col]='.';
+                rowchek[row]=0;
+                lowrdigonal[row+col]=0;
+                upperdigonal[n-1+col-row]=0;   
+            }
+        }
+        
+       return; 
+        
+        
+    }
+    vector<vector<string>> solveNQueens(int n) {
+       
+        vector<vector<string>> ans;
+        vector<string> v(n);
+        string  s(n,'.');
+        for(int i=0;i<n;i++)
+        {
+            v[i]=s;
+        }
+        
+        vector<int> rowchek(n),lowrdigonal(2*n-1),upperdigonal(2*n-1);
+        helper(n,ans, rowchek,lowrdigonal,upperdigonal,0,v);
+        
+            return ans;
+       
+    }
+};
