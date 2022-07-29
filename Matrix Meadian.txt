@@ -1,0 +1,31 @@
+int getMedian(vector<vector<int>> &matrix)
+{
+    // Write your code here.
+    int left=1;
+    int right=100000;
+    int row=matrix.size();
+    int col=matrix[0].size();
+    int n=row*col;
+    while(left<=right)
+    {
+        int bigmid=(right+left)/2;
+          int ans=0;
+        for(int i=0;i<row;i++)
+        {
+           int l=0,h=col-1;
+            while(l<=h)
+            {
+                int mid=l+(h-l)/2;
+                if(matrix[i][mid]<=bigmid)
+                    l=mid+1;
+                else 
+                    h=mid-1;
+            }
+            ans+=l;
+        }
+        if(ans<=n/2) left=bigmid+1;
+        else
+            right=bigmid-1;
+    }
+   return left;
+}
