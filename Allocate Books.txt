@@ -1,0 +1,53 @@
+
+ bool isallocation(vector<int> &A, int n1,int B, int mid){
+     
+    int cus=1,sum=0; 
+    for(int i=0;i<n1;i++)
+    {
+        if(A[i]>mid) return false;
+        
+        else if(sum+A[i]>mid)
+        {
+            cus++;
+            sum=A[i];
+        }
+        else
+        {
+            sum+=A[i];
+        }
+    }
+    
+   if(cus<=B) return true;
+   
+   return false;
+ }
+ 
+
+int Solution::books(vector<int> &A, int B) {
+      if (B > A.size()) return -1;
+      
+    int low=INT_MAX,high=0,ans,n1=A.size();
+      
+    for(int i=0;i<n1;i++)
+    {
+        low=min(low,A[i]);
+        high+=A[i];
+    }
+    
+    while(low<=high)
+    {
+        int mid=(low+high)/2;
+        
+        if(isallocation(A,n1,B,mid)==true)
+        {
+            ans=mid;
+            high=mid-1;
+        }
+        else
+        {
+            low=mid+1;     
+        }
+    }
+    
+    return ans;
+}
