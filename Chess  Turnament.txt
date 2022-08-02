@@ -1,0 +1,38 @@
+#include<bits/stdc++.h>
+bool is_posible(vector<int> positions,int n,int mid,int c){
+    int cnt=1;
+    int holderplace=positions[0];
+    
+    for(int i=1;i<n;i++)
+    {
+        if(positions[i]-holderplace >= mid)
+        {
+            cnt++;
+            holderplace=positions[i];
+        }
+    }
+    return cnt >=c ?true:false;
+}
+int chessTournament(vector<int> positions , int n ,  int c){
+	// Write your code here
+    
+    sort(positions.begin(),positions.end());
+    int low=1;
+    int high=positions[n-1]-positions[0];
+    
+    while(low<=high)
+    {
+        int mid=(low+high)/2;
+        
+        if(is_posible(positions,n,mid,c))
+        {
+            low=mid+1;
+        }
+        else
+        {
+            high=mid-1;
+        }
+    }
+    return high;
+    
+}
