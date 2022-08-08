@@ -1,0 +1,68 @@
+#include<bits/stdc++.h>
+void remove(vector<int> &ans)
+{
+    int a=ans[0];
+    ans[0]=ans[ans.size()-1];
+    ans[ans.size()-1]=a;
+    ans.pop_back();
+    int pi=0;
+    int lc=2*pi+1;
+    int rc=2*pi+2;
+    while(lc<ans.size())
+    {
+        int min=pi;
+        if(ans[lc]<=ans[min] )
+            min=lc;
+        if(ans[rc]<=ans[min] && rc<ans.size())
+            min=rc;
+        if(min==pi)
+            break;
+         int tem=ans[pi];
+         ans[pi]=ans[min];
+         ans[min]=tem;
+         pi=min;
+         lc=2*pi+1;
+         rc=2*pi+2;
+    }
+    return;
+}
+
+void addhead(vector<int> &ans,int el){
+    ans.push_back(el);
+   int childindex=ans.size()-1;
+    while(childindex>0)
+    {
+        int parentindex= (childindex-1)/2;
+        if(ans[childindex]<ans[parentindex])
+        {
+            int tem=ans[parentindex];
+            ans[parentindex]=ans[childindex];
+            ans[childindex]=tem;
+        }
+        else
+        {
+            break;
+        }
+            childindex=parentindex;
+      }
+     
+}
+vector<int> minHeap(int n, vector<vector<int>>& q) {
+    // Write your code here.
+    vector<int> ans,ans2;
+    for(int i=0;i<n;i++)
+    {
+        
+        if(q[i][0]==1) 
+        {
+           ans2.push_back(ans[0]);
+            remove(ans);
+        }
+        else
+        {
+          addhead(ans,q[i][1]) ; 
+         }
+    }
+    return ans2;
+    
+}
