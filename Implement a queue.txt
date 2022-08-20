@@ -1,0 +1,58 @@
+class Queue {
+   int *arr;
+   int start,end ,cusize,maxsize; 
+public:
+    Queue() {
+        // Implement the Constructor
+            arr=new int[5000];
+            start=-1;
+            end=-1;
+            cusize=0;
+            maxsize=5000;
+           
+    }
+
+    /*----------------- Public Functions of Queue -----------------*/
+
+    bool isEmpty() {
+        // Implement the isEmpty() function
+        if(cusize==0)
+            return true;
+        else
+            return false;
+    }
+
+    void enqueue(int data) {
+        // Implement the enqueue() function
+        if(cusize==maxsize)
+            return;
+        if(end==-1)
+        {
+            start=0;
+            end=0;
+        }
+        else
+        end=(end+1);
+        arr[end]=data;
+        cusize++;
+    }
+
+    int dequeue() {
+        // Implement the dequeue() function
+        if(cusize==0)
+            return -1;
+        int ans=arr[start];
+        start++;
+        cusize--;
+        return ans; 
+        
+    }
+
+    int front() {
+        // Implement the front() function
+           if(cusize==0)
+            return -1;
+          return arr[start]; 
+        
+    }
+};
