@@ -1,0 +1,91 @@
+class LRUCache {
+public:
+    class node{
+        public:
+        long long key;
+        long long val;
+        node *next;
+        node *prev;
+        
+        node( long long key_, long long  val_)
+        {
+            key=key_;
+            val=val_;
+        }
+        
+    };
+    node * head = new node(-1, -1);
+    node * tail = new node(-1, -1);
+   long long cap;
+    
+    unordered_map< long long, node *> ourmap;
+    
+    LRUCache( long long capacity) {
+        cap=capacity;
+        head->next=tail;
+        tail->prev=head;
+        
+    }
+    
+    void addnode(node * newnode)
+    {
+        node *tem=head->next;
+        newnode->prev=head;
+        newnode->next=tem;
+        head->next=newnode;
+        tem->prev=newnode;
+        
+    }
+    void deletenode(node * dnode)
+    {
+        node *tem1=dnode->prev;
+        node *tem2=dnode->next;
+        tem1->next=tem2;
+        tem2->prev=tem1;
+    }
+    
+    int get( long long key_) {
+        
+        if(ourmap.find(key_)!=ourmap.end())
+        {
+            node *axitnode=ourmap[key_];
+            int res=axitnode->val;
+            deletenode(axitnode);
+            ourmap.erase(key_);
+            addnode(axitnode);
+            ourmap[key_]=head->next;
+            return res;
+            
+        }
+        return -1;
+        
+    }
+    
+    void put( long long key_,  long long value_) {
+        
+          
+        if(ourmap.find(key_)!=ourmap.end())
+        {
+            node *axitnode=ourmap[key_];
+            deletenode(axitnode);
+            ourmap.erase(key_);
+        }
+        if(cap==ourmap.size())
+        {
+         ourmap.erase(tail->prev->key);
+            deletenode(tail->prev);
+        }
+        
+          addnode(new node(key_,value_));
+          ourmap[key_]=head->next;
+        
+        
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
