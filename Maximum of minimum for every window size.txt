@@ -1,0 +1,34 @@
+#include<bits/stdc++.h>
+vector<int> maxMinWindow(vector<int> a, int n) {
+    // Write your code here.
+     vector<int>  Leftsmmal(n,-1);
+     vector<int>  Rightsmmal(n,n);
+     stack<int> s,t;
+    for(int i=0;i<n;i++)
+    {
+        while( !s.empty() && a[s.top()]>=a[i])
+            s.pop();
+        if(!s.empty())
+            Leftsmmal[i]=s.top();
+        s.push(i);
+    }
+    for(int i=n-1;i>=0;i--)
+    { 
+        while( !t.empty() && a[t.top()]>=a[i])
+            t.pop();
+        if(!t.empty())
+            Rightsmmal[i]=t.top();
+        t.push(i);
+    }
+     vector<int> len(n,INT_MIN);
+    for(int i=0;i<n;i++)
+        len[Rightsmmal[i]- Leftsmmal[i]-2]=max(len[ Rightsmmal[i]- Leftsmmal[i]-2],a[i]);
+    for(int i=n-2;i>=0;i--)
+        len[i]=max(len[i],len[i+1]);
+    return len;
+        
+     
+    
+    
+    
+}
