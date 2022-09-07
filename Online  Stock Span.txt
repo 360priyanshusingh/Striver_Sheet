@@ -1,0 +1,32 @@
+class StockSpanner {
+    unordered_map<int,int> m;
+    stack<int> st;
+public:
+    StockSpanner() {
+        
+    }
+    
+    int next(int price) {
+        int span=1;
+        if(st.empty()){
+            st.push(price);
+            m[price]=span;
+            return span;
+        }
+        
+        while(!st.empty() && price>=st.top()){
+            span+=m[st.top()];
+            st.pop();
+        }
+        m[price]=span;
+        st.push(price);
+        return span;
+            
+    }
+};
+
+/**
+ * Your StockSpanner object will be instantiated and called as such:
+ * StockSpanner* obj = new StockSpanner();
+ * int param_1 = obj->next(price);
+ */
