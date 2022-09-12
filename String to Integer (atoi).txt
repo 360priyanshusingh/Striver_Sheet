@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int myAtoi(string s) {
+        int n=s.size();
+        int i=0;
+        while(i<n && s[i]==' ')
+            i++;
+        s=s.substr(i);
+        
+        int sing=+1;
+        long ans=0;
+        
+        if(s[0] =='-') sing=-1;
+        
+        
+        int Max=INT_MAX,Min=INT_MIN;
+        
+        i= (s[0]=='-' || s[0]=='+') ? 1 :0;
+        
+        while(i<s.size()){
+            if(s[i]==' ' || isdigit(s[i])==false) break;
+            
+            ans=(ans*10)+ s[i]-'0';
+            
+            if(sing==-1 && -1*ans < Min) return Min;
+            if(sing==1 && ans> Max) return Max;
+            i++;
+        }
+        
+        return ans*sing;
+        
+    }
+};
