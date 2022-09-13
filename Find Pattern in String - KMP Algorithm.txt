@@ -1,0 +1,44 @@
+bool findPattern(string p, string s)
+{
+    // Write your code here.
+    int n=s.size();
+    int m=p.size();
+    int ips[m];
+    ips[0]=0;
+    int len=0,i=1,j=0;
+    bool is_prasent=false;
+    while(i<m)
+    {
+        if(p[i]==p[len])
+        {
+            ips[i++]=++len;
+        }
+        else
+        {
+            if(len!=0)
+             len=ips[len-1]; 
+            else
+                ips[i++]=0;
+      
+        }
+    }
+    i=0;j=0;
+    while(i<n)
+    {
+        if(s[i]==p[j]){
+            i++;j++;  
+        }
+        if(j==m){
+          is_prasent=true;
+            j=ips[j-1];
+        }
+        else if( i<n && s[i]!=p[j] ){
+            if(j!=0)
+                j=ips[j-1];
+            else
+                i++;   
+        }
+           
+    }
+    return is_prasent;
+}
