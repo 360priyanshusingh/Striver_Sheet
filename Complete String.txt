@@ -1,0 +1,87 @@
+#include <bits/stdc++.h> 
+struct Node{
+    public:
+    Node *links[26];
+    bool Flags=false;
+    
+    bool containskey(char c){
+      return (links[c - 'a'] != NULL);
+        
+    }
+    
+    void put(char c,Node *tem){
+        links[c-'a']= tem;
+    }
+    
+    Node *get(char c){
+        return links[c-'a'];
+    }
+    
+    void setend(){
+        Flags=true;
+    }
+    
+    bool end() {
+        return Flags;
+    } 
+} ;
+class Trie {
+    Node *root;
+public:
+    Trie() {
+        root = new Node();
+
+    }
+    
+    void insert(string word) {
+        Node *node=root;
+        
+        for(int i=0;i<word.size();i++)
+        {
+            if(!node->containskey(word[i]))
+            {
+                node->put(word[i],new Node());
+            }
+            node=node->get(word[i]);
+        }
+        node->setend();
+        
+    }
+    
+    bool search(string word) {
+        Node *node=root;
+        for (int i=0;i<word.size();i++){
+            if(node->containskey(word[i]))
+            {
+                 node=node->get(word[i]);
+                 if(node->end()==false) return false;
+            }
+            else
+                return false;
+        }
+   
+        return true;
+        
+    }
+};
+string completeString(int n, vector<string> &a){
+    // Write your code here.
+    Trie newroot;
+    for(int i=0;i<n;i++)
+         newroot.insert(a[i]);
+    
+    string ans="";
+    for(int j=0;j<n;j++)
+    {
+       if(newroot.search(a[j])){
+           if(ans.size()<a[j].size()){
+               ans=a[j];
+           }
+           else if(ans.size()==a[j].size()  &&  a[j]<ans)
+               ans=a[j];
+       }
+      
+    }
+      if(ans=="") return "None";
+      return ans ;  
+}
