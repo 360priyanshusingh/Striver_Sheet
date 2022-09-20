@@ -1,0 +1,86 @@
+ struct Node{
+    public:
+    Node *links[26];
+    bool Flags=false;
+    
+    bool containskey(char c){
+      return (links[c - 'a'] != NULL);
+        
+    }
+    
+    void put(char c,Node *tem){
+        links[c-'a']= tem;
+    }
+    
+    Node *get(char c){
+        return links[c-'a'];
+    }
+    
+    void setend(){
+        Flags=true;
+    }
+    
+    bool end() {
+        return Flags;
+    } 
+} ;
+
+class Trie {
+    Node *root;
+public:
+    Trie() {
+        root = new Node();
+    }
+    
+    void insert(string word) {
+        Node *node=root;
+        
+        for(int i=0;i<word.size();i++)
+        {
+            if(!node->containskey(word[i]))
+            {
+                node->put(word[i],new Node());
+            }
+            node=node->get(word[i] );
+        }
+        
+        node->setend();
+        
+    }
+    
+    bool search(string word) {
+        Node *node=root;
+        for (int i=0;i<word.size();i++){
+               if(node==NULL) return false;
+            if(!node->containskey(word[i]))
+            {
+                return false;
+            }
+            
+            node=node->get(word[i]);
+        }
+   
+        return node->end();
+        
+    }
+    
+    bool startsWith(string prefix) {
+         Node *node=root;
+        for (int i=0;i<prefix.size();i++){
+            if(!node->containskey(prefix[i]))
+                 return false;
+            
+             node=node->get(prefix[i] );
+        }
+         
+        return true;
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * bool param_2 = obj->search(word);
+ * bool param_3 = obj->startsWith(prefix);
+ */

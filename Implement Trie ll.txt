@@ -1,0 +1,103 @@
+struct Node{
+    Node *links[26];
+    int cntEndWith=0;
+    int cntPrefix=0;
+     bool cointansKey(char ch){
+        return (links[ch-'a']!=NULL);
+    }
+    
+    void put(char ch,Node *node){
+        links[ch-'a']=node;
+    }
+    void increassPrefirx(){
+        cntPrefix++;
+    }
+    int getincreassPrefirx(){
+        return cntPrefix;
+    }
+    Node *get(char ch){
+        return links[ch-'a'];
+    }
+    
+    void end(){
+        cntEndWith++;
+    }
+    int getend(){
+        return cntEndWith;
+    }
+    void decressPrefix(){
+        cntPrefix--;
+    }
+    void decressEndWith(){
+        cntEndWith--;
+    }
+};
+
+
+
+class Trie{
+  Node * root;
+    public:
+
+    Trie(){
+        // Write your code here.
+        root=new Node();
+    }
+
+    void insert(string &word){
+        // Write your code here.
+        Node *node=root;
+        
+        for(int i=0;i<word.size();i++)
+        {
+            if(!node->cointansKey(word[i]))
+                node->put(word[i],new Node());
+            node->increassPrefirx();
+            node=node->get(word[i]);    
+        }
+         node->increassPrefirx();
+        node->end();
+    }
+
+    int countWordsEqualTo(string &word){
+        // Write your code here.
+        Node *node=root;
+        
+        for(int i=0;i<word.size();i++)
+        {
+            if(!node->cointansKey(word[i]))
+               return 0;
+            node=node->get(word[i]);    
+        }
+      return node->getend();   
+    }
+
+    int countWordsStartingWith(string &word){
+        // Write your code here.
+        Node *node=root;
+        
+        for(int i=0;i<word.size();i++)
+        {
+            if(!node->cointansKey(word[i]))
+               return 0;
+            node=node->get(word[i]);    
+        }
+      return node->getincreassPrefirx();   
+        
+    }
+
+    void erase(string &word){
+        // Write your code here.
+        Node *node=root;
+        
+        for(int i=0;i<word.size();i++)
+        {
+            if(!node->cointansKey(word[i]))
+               return ;
+            node->decressPrefix();
+            node=node->get(word[i]);    
+        }
+         node->decressPrefix();
+        node->decressEndWith();
+    }
+};

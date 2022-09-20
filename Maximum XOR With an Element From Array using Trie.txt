@@ -1,0 +1,94 @@
+struct Node{
+    Node *Links[2];
+    public:
+    
+    bool caintainsKey(int bit){
+        return  ( Links[bit]!=NULL );
+    }
+    
+    Node *get(int bit){
+        return Links[bit];
+    }
+    
+    void set(int bit, Node *node){
+        Links[bit]=node;
+    }
+};
+
+class Trie{
+    Node *root;
+    public:
+    Trie(){
+        root=new Node();
+        
+    }
+    
+    void insert(int num){
+        Node * node=root;
+        
+        for(int i=31;i>=0;i--){
+            int bit= (num >> i) & 1;
+            if(!node-> caintainsKey(bit)){
+                node->set(bit,new Node());
+            }
+            
+            node=node->get(bit);
+         }
+        
+    }
+    
+    int maxint(int num){
+        
+      Node *node=root;
+        int maxNum=0;
+         for(int i=31; i>=0;i--){
+            int bit= ( num >> i) & 1 ;
+            if(node->caintainsKey(1- bit)){
+               
+                maxNum= maxNum | (1 << i);
+                node=node->get(1-bit);
+            }
+            else
+                node=node->get(bit);
+        }
+        
+               
+             return maxNum;
+    }
+    
+};
+class Solution {
+public:
+    vector<int> maximizeXor(vector<int>& nums, vector<vector<int>>& queries) {
+          int n=queries.size();
+          vector<int> quans(n,-1);
+          vector<pair<int,pair<int,int>> > qu;
+          sort(nums.begin(),nums.end());
+          for(int i=0;i<n;i++){
+              
+              qu.push_back({queries[i][1],{queries[i][0],i}});
+          }
+          sort(qu.begin(),qu.end());
+        Trie obj;
+        int index=0;
+        int m=nums.size();  
+        for(int i=0;i<n;i++)
+        {
+            int qi=qu[i].first;
+            int xi=qu[i].second.first;
+            int qind=qu[i].second.second;
+          
+            while(index<m && nums[index]<=qi){
+                obj.insert(nums[index]);
+                index++;
+            }
+            if(index==0) quans[qind]=-1;
+            else quans[qind]=obj.maxint(xi);
+           
+            
+        }
+          
+        return quans;
+        
+    }
+};
