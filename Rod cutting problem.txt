@@ -1,0 +1,29 @@
+#include<bits/stdc++.h>
+// int helper(int index,int n,vector<int> & price,vector<vector<int>> &dp){
+//     if(index==0) return price[index]*n;
+//     if(dp[index][n]!=-1) return dp[index][n];
+//     int nontake=helper(index-1,n,price,dp);
+//     int take=INT_MIN;
+//     int rodlength=index+1;
+//     if(rodlength<=n)
+//        take=price[index]+helper(index,n-rodlength,price,dp);
+//     return dp[index][n]=max(nontake,take);
+// }
+int cutRod(vector<int> &price, int n)
+{
+	// Write your code here.
+    vector<vector<int>> dp(n, vector<int> (n+1,-1));
+    for(int i=0;i<=n;i++)
+        dp[0][i]=price[0]*i;
+    for(int i=1;i<n;i++){
+        for(int j=0;j<=n;j++){
+              int nontake=dp[i-1][j];
+              int take=INT_MIN;
+              int rodlength=i+1;
+              if(rodlength<=j)
+                take=price[i]+dp[i][j-rodlength];
+              dp[i][j]=max(nontake,take);  
+        }
+    }
+   return dp[n-1][n];
+}

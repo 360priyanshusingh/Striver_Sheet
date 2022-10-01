@@ -1,0 +1,32 @@
+#include <bits/stdc++.h> 
+
+int helper(vector < string > & arr,string target,unordered_map<string,int> &dp){
+    int ts=target.size();
+    if(ts==0) return 1;
+    if(dp[target]!= 0) return dp[target];
+    for(int i=1;i<=ts;i++)
+    {
+        int fag=0;
+        string tem = target.substr(0,i);
+        for(int j=0;j<arr.size();j++){
+            if( tem.compare(arr[j])==0){
+                fag=1;
+                break;
+            }
+        }
+        if(fag==1 &&  helper(arr,target.substr(i,ts-i),dp)==1) return dp[target]=1;
+        
+    }
+    
+    return dp[target]=-1;
+}
+    
+bool wordBreak(vector < string > & arr, int n, string & target) {
+    // Write your code here. 
+    unordered_map<string, int> dp;
+   int ans=helper(arr,target,dp);
+    if(ans==1)
+        return true;
+    else
+        return false;
+}
