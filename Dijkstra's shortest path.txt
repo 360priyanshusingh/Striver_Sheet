@@ -1,0 +1,32 @@
+#include <bits/stdc++.h> 
+using namespace std;
+vector<int> dijkstra(vector<vector<int>> &vec, int vertices, int edges, int source) {
+    // Write your code here.
+    vector<pair<int,int>>  g[vertices];
+    for(int i=0;i<edges;i++){
+        int u=vec[i][0];
+        int v=vec[i][1];
+        int x=vec[i][2];
+        g[u].push_back({v,x});
+        g[v].push_back({u,x});
+    }
+    
+priority_queue<pair<int,int>,vector<pair<int,int> >,greater<pair<int,int>>> pq;
+    vector<int> dis(vertices,INT_MAX);//1-indexed array for calculating shortest paths
+    dis[source] = 0;
+    pq.push({0,source});    // (dist,source)
+    while(!pq.empty()){
+        int dist=pq.top().first;
+        int node=pq.top().second;
+        pq.pop();
+        for(auto it:g[node]){
+            int next=it.first;
+            int nextdis=it.second;
+            if(dis[next] > dist+nextdis){
+                dis[next]=dist+nextdis;
+                pq.push({dis[next],next});
+            }
+        }
+    }
+   return dis;
+}

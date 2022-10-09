@@ -1,0 +1,46 @@
+#include<bits/stdc++.h>
+bool is_cycle(int node,vector<bool> &visited, vector<int> adj[]){
+     queue< pair<int,int> > q;
+     q.push({node,-1});
+     visited[node]=true;
+    
+     while(!q.empty()){
+        int front=q.front().first;
+        int par=q.front().second;
+        q.pop();
+        for(auto it:adj[front])
+        {
+            if(!visited[it]){
+                visited[it]=true;
+                q.push({it,front});
+            }
+            else if(par!=it)
+                return true;
+         }
+     }
+    
+    return false;
+}
+
+string cycleDetection (vector<vector<int>>& edges, int n, int m)
+{
+    // Write your code here.
+    vector<int> adj[n+1];
+    vector<bool> visited(n+1,false);
+    for(int i=0;i<m;i++){
+        int u=edges[i][0];
+        int v=edges[i][1];
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    
+    for(int i=1; i<=n ; i++ ){
+        if(visited[i]!=true){
+             if(is_cycle(i,visited,adj))
+                return "Yes";
+        }
+           
+    }
+    
+    return "No";
+}

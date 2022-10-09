@@ -1,0 +1,23 @@
+ int helper(int n,int k, vector<vector<int>> &dp){
+        if(n==1 || k==0 || k==1)
+        return  k;
+        
+        if(dp[n][k]!=-1) return dp[n][k];
+        int Min=INT_MAX;
+        for(int i=1;i<=k;i++)
+        {
+            int eggbreak=helper(n-1,i-1,dp);
+            int eggnotbreak=helper(n,k-i,dp);
+            int res=max(eggbreak,eggnotbreak)+1;
+            Min=min(res,Min);
+        }
+        
+        return dp[n][k]= Min;
+            
+    }
+    int eggDrop(int n, int k) 
+    {
+        // your code here
+        vector<vector<int>> dp(n+1,vector<int> (k+1,-1));
+        return helper(n,k,dp);
+    }
