@@ -1,0 +1,55 @@
+#include<bits/stdc++.h> 
+using namespace std;
+
+int findParent(int node, vector<int> &Parent){
+    if(node==Parent[node]) return node;
+    
+    return Parent[node]=findParent(Parent[node],Parent);
+}
+void Union(int u,int v,vector<int>&Parent,vector<int>&Rank){
+    u=findParent(u,Parent);
+    v=findParent(v,Parent);
+    if(Rank[u]<Rank[v]){
+        Parent[v]=u;
+    }
+    else if(Rank[u]>Rank[v]){
+        Parent[u]=v;
+    }
+    else{
+        Parent[u]=v;
+        Rank[u]++;
+    }
+    return ;
+}
+int kruskalMST(int n, int m, vector<vector<int>> &graph) {
+	// Write your code here.
+    vector<pair<int,pair<int,int>> > adj;
+    for(int i=0;i<m;i++){
+        int u=graph[i][0];
+        int v=graph[i][1];
+        int w=graph[i][2];
+        adj.push_back({w,{u,v}});
+    }
+    sort(adj.begin(),adj.end());
+    vector<int> Rank(n+1,0);
+    vector<int> Parent(n+1);
+    for(int i=0;i<=n;i++){
+        Parent[i]=i;
+    }
+    int cost=0;
+    vector<pair<int,int>> mst;
+    for(auto it:adj){
+        int u=it.second.first;
+        int v=it.second.second;
+        int w=it.first;
+        if(findParent(u,Parent)!=findParent(v,Parent)){
+            cost+=w;
+            mst.push_back({u,v});
+            Union(u,v,Parent,Rank);
+        }
+            
+    }
+       
+    
+    return cost;
+}

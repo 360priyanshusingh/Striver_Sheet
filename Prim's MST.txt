@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+vector<pair<pair<int, int>, int>> calculatePrimsMST(int n, int m,vector<pair<pair<int, int>, int>> &g)
+{
+    // Write your code here.
+    vector< pair<int,int> > adj[n+1];
+    for(int i=0;i<m;i++){
+        int u=g[i].first.first;
+        int v=g[i].first.second;
+        int w=g[i].second;
+        adj[u].push_back({v,w});
+        adj[v].push_back({u,w});
+    }
+    vector<int>  key(n+1,INT_MAX); 
+    vector<int>  parent(n+1,-1);
+    vector<bool> mstset(n+1,false);
+    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int> > > pq;
+    key[1]=0;
+    parent[1]=-1;
+    pq.push({0,1});
+    while(!pq.empty()){
+        int node=pq.top().second;
+        pq.pop();
+        mstset[node]=true;
+        for(auto it:adj[node]){
+            int u=it.first;
+            int w=it.second;
+            if(mstset[u]==false && ( key[u] > w) ){
+                parent[u]=node;
+                key[u]=w;
+                pq.push({key[u],u});
+            } 
+        }
+    }
+   
+   vector<pair<pair<int, int>, int>> ans;
+    for(int i=2;i<=n;i++){
+        int u=i;
+        int v=parent[i];
+        int w=key[i];
+        ans.push_back({{v,u},w});
+    }
+    
+   return ans;
+}
