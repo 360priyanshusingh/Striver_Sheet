@@ -1,0 +1,34 @@
+#include <bits/stdc++.h> 
+/************************************************************
+
+    Following is the TreeNode class structure
+
+    template <typename T>
+    class TreeNode {
+       public:
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data) {
+            this->data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+void helper(TreeNode<int> *root,vector<int> & leftview,int level){
+    if(root==NULL) return;
+    if(leftview.size()==level)
+       leftview.push_back(root->data);
+         helper(root->left,leftview,level+1);
+         helper(root->right,leftview,level+1);
+}
+vector<int> getLeftView(TreeNode<int> *root)
+{
+    //    Write your code here
+    vector<int> leftview;
+    helper(root,leftview,0);
+    return leftview;
+}

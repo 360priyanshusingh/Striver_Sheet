@@ -1,0 +1,40 @@
+#include <bits/stdc++.h> 
+/**********************************************************
+
+    Following is the Binary Tree Node class structure:
+
+    template <typename T>
+
+    class BinaryTreeNode {
+    public :
+        T data;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+		
+        BinaryTreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+***********************************************************/
+bool helper(BinaryTreeNode<int>* root1,BinaryTreeNode<int>* root2){
+    if(root1==NULL &&  root2==NULL)
+        return true;
+    if(root1==NULL || root2==NULL)
+        return false;
+
+    if(root1->data!=root2->data) return false;
+    bool l=helper(root1->left,root2->left);
+    bool r=helper(root1->right,root2->right);
+    if(l==false || r==false)
+        return false;
+    else
+        return true;
+}
+bool identicalTrees(BinaryTreeNode<int>* root1, BinaryTreeNode<int>* root2) {
+    // Write your code here. 
+    return helper(root1,root2);
+    
+}

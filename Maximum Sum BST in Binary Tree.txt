@@ -1,0 +1,47 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+     pair<pair<int,int>,pair<bool,int>> helper(TreeNode* root,int &maxA){
+      if(root==NULL){
+          return {{INT_MIN,INT_MAX},{true,0}};
+      }
+
+      pair<pair<int,int>,pair<bool,int>> Left = helper( root->left,maxA);
+      pair<pair<int,int>,pair<bool,int>> Right = helper( root->right,maxA);
+      pair<pair<int,int>,pair<bool,int>> ans;
+
+      if(Left.second.first==true && Right.second.first==true){
+          if(Left.first.first<root->val && Right.first.second>root->val){
+             ans.second.first=true;
+             ans.first.first=max({Left.first.first,root->val,Right.first.first});
+             ans.first.second=min({Left.first.second,root->val,Right.first.second});
+             ans.second.second= root->val + Left.second.second + Right.second.second;
+             maxA=max(maxA, ans.second.second);
+          }
+          else{
+              ans.second.first=false;
+          }
+      }
+      else 
+          ans.second.first=false;
+      
+
+      return ans;
+    }
+    int maxSumBST(TreeNode* root) {
+        if(root==NULL) return 0;
+      int maxA=0;
+      pair<pair<int,int>,pair<bool,int>>  ans=helper(root, maxA);
+       return maxA;
+    }
+};

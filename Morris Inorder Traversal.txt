@@ -1,0 +1,29 @@
+vector<int> inOrder(Node* root)
+    {
+        //code here
+       vector<int> inOrder;
+       Node* cur=root;
+       while(cur!=NULL){
+           if(cur->left==NULL) {
+               inOrder.push_back(cur->data);
+               cur=cur->right;
+           }
+           else{
+               Node* pre=cur->left;
+               while(pre->right!=NULL && pre->right!=cur){
+                  pre=pre->right;
+               }
+               if(pre->right==NULL){
+                  pre->right=cur; 
+                 cur=cur->left;
+               }
+               else{
+                  pre->right=NULL;
+                  inOrder.push_back(cur->data);
+                  cur=cur->right;
+               }
+           }
+       }
+        
+        return inOrder;
+    }
